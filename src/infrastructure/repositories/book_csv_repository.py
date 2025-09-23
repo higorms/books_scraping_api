@@ -1,0 +1,98 @@
+import csv
+import logging
+from typing import List
+from src.domain.book import Book, BookRepository
+from src.domain.exceptions import BookRepositoryException
+
+
+class BookRepository(BookRepository):
+    """Implementação do repositório de livros usando arquivo CSV.
+
+    Esta classe implementa o protocolo BookRepository para persistência
+    de dados de livros utilizando arquivos CSV como fonte de dados.
+
+    Attributes:
+        file_path (str): Caminho para o arquivo CSV contendo os dados
+            dos livros.
+    """
+
+    def __init__(self, file_path: str):
+        """Inicializa o repositório CSV com o caminho do arquivo.
+
+        Args:
+            file_path (str): Caminho para o arquivo CSV contendo os dados
+                dos livros.
+        """
+        self.file_path = file_path
+        self.logger = logging.getLogger(__name__)
+
+    def get_all_books(self) -> List[Book]:
+        """Recupera todos os livros do arquivo CSV.
+
+        Lê o arquivo CSV especificado no construtor e converte cada linha
+        em uma instância da classe Book.
+
+        Returns:
+            List[Book]: Lista contendo todos os livros encontrados no
+                arquivo CSV.
+
+        Raises:
+            BookRepositoryException: Se houver problemas de acesso ao arquivo
+                ou configuração.
+            DataValidationError: Se algum valor no CSV não puder ser
+                convertido para o tipo esperado.
+        """
+        books = []
+        try:
+            with open(self.file_path, mode="r", encoding="utf-8") as f:
+                reader = csv.DictReader(f)
+                for row_num, row in enumerate(reader, start=2):
+                    try:
+                        book = Book(
+                            id=int(row["id"]),
+                            title=row["title"],
+                            price=float(row["price"]),
+                            rating=int(row["rating"]),
+                            avaliability=int(row["avaliability"]),
+                            category=row["category"],
+                            image_url=row["image_url"]
+                        )
+                        books.append(book)
+                    except (ValueError, KeyError) as e:
+                        error_msg = (
+                            f"Erro ao processar linha {row_num} do CSV: {e}. "
+                            f"Pulando registro."
+                        )
+                        self.logger.warning(error_msg)
+                        # Continuamos processando outros registros
+                        continue
+                    except Exception as e:
+                        error_msg = (
+                            f"Erro inesperado ao processar linha "
+                            f"{row_num}: {e}"
+                        )
+                        self.logger.error(error_msg)
+                        continue
+        except FileNotFoundError:
+            error_msg = f"Arquivo CSV não encontrado: {self.file_path}"
+            self.logger.error(error_msg)
+            raise BookRepositoryException(
+                f"Arquivo de dados não encontrado: {self.file_path}",
+                "FILE_NOT_FOUND"
+            )
+        except PermissionError:
+            error_msg = f"Sem permissão para ler arquivo: {self.file_path}"
+            self.logger.error(error_msg)
+            raise BookRepositoryException(
+                f"Sem permissão para acessar arquivo: {self.file_path}",
+                "PERMISSION_DENIED"
+            )
+        except Exception as e:
+            error_msg = f"Erro inesperado ao ler arquivo CSV: {e}"
+            self.logger.error(error_msg)
+            raise BookRepositoryException(
+                f"Erro ao carregar dados dos livros: {e}",
+                "UNEXPECTED_ERROR"
+            )
+
+        return books
