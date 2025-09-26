@@ -38,3 +38,16 @@ class BookRepository(Protocol):
             List[Book]: Lista contendo todos os livros disponíveis.
         """
         ...
+
+    def search_books(self, title: str, category: str) -> List[Book]:
+        """Busca livros no repositório com base em título e categoria.
+
+        Args:
+            title (str): Título ou parte do título do livro a ser buscado.
+            category (str): Categoria do livro a ser buscado.
+
+        Returns:
+            List[Book]: Lista contendo os livros que correspondem aos
+                critérios de busca.
+        """
+        ...

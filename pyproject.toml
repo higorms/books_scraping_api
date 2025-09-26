@@ -3,7 +3,8 @@ name = "books-scraping-api"
 version = "0.1.0"
 description = ""
 authors = [
-    {name = "higorms",email = "menezes.higor.98@gmail.com"}
+    {name = "higorms",email = "menezes.higor.98@gmail.com"},
+    {name = "nfilho1989",email = "narcelioclemente@outlook.com"}
 ]
 readme = "README.md"
 requires-python = ">=3.13"

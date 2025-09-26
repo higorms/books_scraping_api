@@ -1,2 +1,4 @@
 id,title,price,rating,avaliability,category,image_url
 1,A Light in the Attic,51.77,3,22,Poetry,https://books.toscrape.com/media/cache/fe/72/fe72f0532301ec28892ae79a629a293c.jpg
+2,The Black Maria,52.15,1,19,Poetry,https://books.toscrape.com/media/cache/d1/7a/d17a3e313e52e1be5651719e4fba1d16.jpg
+3,It's Only the Himalayas,45.17,2,19,Travel,https://books.toscrape.com/media/cache/6d/41/6d418a73cc7d4ecfd75ca11d854041db.jpg

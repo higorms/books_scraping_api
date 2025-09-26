@@ -13,3 +13,72 @@
 2025-09-22 22:04:13,820 - src.application.get_all_books - INFO - Busca concluída. 1 livros encontrados
 2025-09-22 22:04:13,820 - src.app.routes.book_routes - INFO - Retornando 1 livros encontrados
 2025-09-22 22:04:13,821 - src.app.middleware.request_logging - INFO - Resposta enviada: GET http://127.0.0.1:8000/api/v1/books - Status: 200 - Tempo: 0.003s
+2025-09-25 22:14:29,588 - __main__ - INFO - Iniciando servidor da aplicação Books Scraping API
+2025-09-25 22:14:38,615 - src.app.middleware.request_logging - INFO - Requisição recebida: GET http://127.0.0.1:8000/ - IP: 127.0.0.1 - User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36
+2025-09-25 22:14:38,616 - src.app.middleware.request_logging - INFO - Resposta enviada: GET http://127.0.0.1:8000/ - Status: 404 - Tempo: 0.001s
+2025-09-25 22:14:38,637 - src.app.middleware.request_logging - INFO - Requisição recebida: GET http://127.0.0.1:8000/favicon.ico - IP: 127.0.0.1 - User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36
+2025-09-25 22:14:38,637 - src.app.middleware.request_logging - INFO - Resposta enviada: GET http://127.0.0.1:8000/favicon.ico - Status: 404 - Tempo: 0.000s
+2025-09-25 22:15:20,892 - src.app.middleware.request_logging - INFO - Requisição recebida: GET http://127.0.0.1:8000/api/v1/books/search - IP: 127.0.0.1 - User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36
+2025-09-25 22:15:20,892 - src.app.middleware.request_logging - INFO - Resposta enviada: GET http://127.0.0.1:8000/api/v1/books/search - Status: 404 - Tempo: 0.001s
+2025-09-25 22:15:39,375 - src.app.middleware.request_logging - INFO - Requisição recebida: GET http://127.0.0.1:8000/api/v1/books/search?title={maria} - IP: 127.0.0.1 - User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36
+2025-09-25 22:15:39,376 - src.app.middleware.request_logging - INFO - Resposta enviada: GET http://127.0.0.1:8000/api/v1/books/search?title={maria} - Status: 404 - Tempo: 0.001s
+2025-09-25 22:15:44,855 - src.app.middleware.request_logging - INFO - Requisição recebida: GET http://127.0.0.1:8000/api/v1/books/search?title=maria - IP: 127.0.0.1 - User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36
+2025-09-25 22:15:44,856 - src.app.middleware.request_logging - INFO - Resposta enviada: GET http://127.0.0.1:8000/api/v1/books/search?title=maria - Status: 404 - Tempo: 0.001s
+2025-09-25 22:16:48,826 - src.app.middleware.request_logging - INFO - Requisição recebida: GET http://127.0.0.1:8000/api/v1/books/search?title=maria - IP: 127.0.0.1 - User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36
+2025-09-25 22:16:48,826 - src.app.middleware.request_logging - INFO - Resposta enviada: GET http://127.0.0.1:8000/api/v1/books/search?title=maria - Status: 404 - Tempo: 0.001s
+2025-09-25 22:20:24,075 - __main__ - INFO - Iniciando servidor da aplicação Books Scraping API
+2025-09-25 22:20:35,750 - __main__ - INFO - Iniciando servidor da aplicação Books Scraping API
+2025-09-25 22:21:50,357 - src.app.middleware.request_logging - INFO - Requisição recebida: GET http://127.0.0.1:8000/api/v1/books/search?title=maria - IP: 127.0.0.1 - User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36
+2025-09-25 22:21:50,359 - src.app.routes.book_routes - INFO - Processando requisição para buscar livros
+2025-09-25 22:21:50,359 - src.application.search_books - INFO - Iniciando busca dos livros
+2025-09-25 22:21:50,383 - src.application.search_books - ERROR - Erro inesperado ao buscar livros: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-25 22:21:50,383 - src.app.routes.book_routes - ERROR - Erro do repositório: Falha ao recuperar lista de livros: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-25 22:21:50,384 - src.app.middleware.request_logging - INFO - Resposta enviada: GET http://127.0.0.1:8000/api/v1/books/search?title=maria - Status: 500 - Tempo: 0.027s
+2025-09-25 22:25:03,571 - src.app.middleware.request_logging - INFO - Requisição recebida: GET http://127.0.0.1:8000/api/v1/books/search?title=maria - IP: 127.0.0.1 - User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36
+2025-09-25 22:25:03,573 - src.app.routes.book_routes - INFO - Processando requisição para buscar livros
+2025-09-25 22:25:03,573 - src.application.search_books - INFO - Iniciando busca - título: '', categoria: ''
+2025-09-25 22:25:03,577 - src.application.search_books - ERROR - Erro inesperado ao buscar livros: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-25 22:25:03,578 - src.app.routes.book_routes - ERROR - Erro do repositório: Falha ao recuperar lista de livros: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-09-25 22:25:03,578 - src.app.middleware.request_logging - INFO - Resposta enviada: GET http://127.0.0.1:8000/api/v1/books/search?title=maria - Status: 500 - Tempo: 0.008s
+2025-09-25 22:29:13,597 - src.app.middleware.request_logging - INFO - Requisição recebida: GET http://127.0.0.1:8000/api/v1/books/search?title=maria - IP: 127.0.0.1 - User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36
+2025-09-25 22:29:13,599 - src.app.routes.book_routes - INFO - Processando requisição para buscar livros
+2025-09-25 22:29:13,599 - src.application.search_books - INFO - Iniciando busca - título: '', categoria: ''
+2025-09-25 22:29:13,606 - src.application.search_books - INFO - Busca concluída. 3 livros encontrados
+2025-09-25 22:29:13,606 - src.app.routes.book_routes - INFO - Retornando 3 livros encontrados
+2025-09-25 22:29:13,609 - src.app.middleware.request_logging - INFO - Resposta enviada: GET http://127.0.0.1:8000/api/v1/books/search?title=maria - Status: 200 - Tempo: 0.012s
+2025-09-25 22:29:56,190 - src.app.middleware.request_logging - INFO - Requisição recebida: GET http://127.0.0.1:8000/api/v1/books/search?title=Light - IP: 127.0.0.1 - User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36
+2025-09-25 22:29:56,191 - src.app.routes.book_routes - INFO - Processando requisição para buscar livros
+2025-09-25 22:29:56,192 - src.application.search_books - INFO - Iniciando busca - título: '', categoria: ''
+2025-09-25 22:29:56,194 - src.application.search_books - INFO - Busca concluída. 3 livros encontrados
+2025-09-25 22:29:56,194 - src.app.routes.book_routes - INFO - Retornando 3 livros encontrados
+2025-09-25 22:29:56,195 - src.app.middleware.request_logging - INFO - Resposta enviada: GET http://127.0.0.1:8000/api/v1/books/search?title=Light - Status: 200 - Tempo: 0.005s
+2025-09-25 22:35:26,001 - src.app.middleware.request_logging - INFO - Requisição recebida: GET http://127.0.0.1:8000/api/v1/books/search?title=Light - IP: 127.0.0.1 - User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36
+2025-09-25 22:35:26,004 - src.app.routes.book_routes - INFO - Processando requisição para buscar livros
+2025-09-25 22:35:26,004 - src.application.search_books - INFO - Iniciando busca - título: 'Light', categoria: ''
+2025-09-25 22:35:26,015 - src.application.search_books - INFO - Busca concluída. 1 livros encontrados
+2025-09-25 22:35:26,015 - src.app.routes.book_routes - INFO - Retornando 1 livros encontrados
+2025-09-25 22:35:26,017 - src.app.middleware.request_logging - INFO - Resposta enviada: GET http://127.0.0.1:8000/api/v1/books/search?title=Light - Status: 200 - Tempo: 0.016s
+2025-09-25 22:35:30,755 - src.app.middleware.request_logging - INFO - Requisição recebida: GET http://127.0.0.1:8000/api/v1/books/search?category=Poetry - IP: 127.0.0.1 - User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36
+2025-09-25 22:35:30,756 - src.app.routes.book_routes - INFO - Processando requisição para buscar livros
+2025-09-25 22:35:30,756 - src.application.search_books - INFO - Iniciando busca - título: '', categoria: 'Poetry'
+2025-09-25 22:35:30,761 - src.application.search_books - INFO - Busca concluída. 2 livros encontrados
+2025-09-25 22:35:30,761 - src.app.routes.book_routes - INFO - Retornando 2 livros encontrados
+2025-09-25 22:35:30,762 - src.app.middleware.request_logging - INFO - Resposta enviada: GET http://127.0.0.1:8000/api/v1/books/search?category=Poetry - Status: 200 - Tempo: 0.008s
+2025-09-25 22:35:36,624 - src.app.middleware.request_logging - INFO - Requisição recebida: GET http://127.0.0.1:8000/api/v1/books/search - IP: 127.0.0.1 - User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36
+2025-09-25 22:35:36,626 - src.app.routes.book_routes - INFO - Processando requisição para buscar livros
+2025-09-25 22:35:36,626 - src.application.search_books - INFO - Iniciando busca - título: '', categoria: ''
+2025-09-25 22:35:36,629 - src.application.search_books - INFO - Busca concluída. 3 livros encontrados
+2025-09-25 22:35:36,629 - src.app.routes.book_routes - INFO - Retornando 3 livros encontrados
+2025-09-25 22:35:36,630 - src.app.middleware.request_logging - INFO - Resposta enviada: GET http://127.0.0.1:8000/api/v1/books/search - Status: 200 - Tempo: 0.006s
+2025-09-25 22:35:43,089 - src.app.middleware.request_logging - INFO - Requisição recebida: GET http://127.0.0.1:8000/api/v1/books/search?title=Light&category=Poetry - IP: 127.0.0.1 - User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36
+2025-09-25 22:35:43,090 - src.app.routes.book_routes - INFO - Processando requisição para buscar livros
+2025-09-25 22:35:43,091 - src.application.search_books - INFO - Iniciando busca - título: 'Light', categoria: 'Poetry'
+2025-09-25 22:35:43,094 - src.application.search_books - INFO - Busca concluída. 1 livros encontrados
+2025-09-25 22:35:43,095 - src.app.routes.book_routes - INFO - Retornando 1 livros encontrados
+2025-09-25 22:35:43,096 - src.app.middleware.request_logging - INFO - Resposta enviada: GET http://127.0.0.1:8000/api/v1/books/search?title=Light&category=Poetry - Status: 200 - Tempo: 0.007s
+2025-09-25 22:36:44,642 - src.app.middleware.request_logging - INFO - Requisição recebida: GET http://127.0.0.1:8000/api/v1/books/search?category=Poetry - IP: 127.0.0.1 - User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36
+2025-09-25 22:36:44,643 - src.app.routes.book_routes - INFO - Processando requisição para buscar livros
+2025-09-25 22:36:44,643 - src.application.search_books - INFO - Iniciando busca - título: '', categoria: 'Poetry'
+2025-09-25 22:36:44,646 - src.application.search_books - INFO - Busca concluída. 2 livros encontrados
+2025-09-25 22:36:44,647 - src.app.routes.book_routes - INFO - Retornando 2 livros encontrados
+2025-09-25 22:36:44,649 - src.app.middleware.request_logging - INFO - Resposta enviada: GET http://127.0.0.1:8000/api/v1/books/search?category=Poetry - Status: 200 - Tempo: 0.006s
