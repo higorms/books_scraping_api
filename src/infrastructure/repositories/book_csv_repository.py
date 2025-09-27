@@ -1,5 +1,6 @@
 import csv
 import logging
+import pandas as pd
 from typing import List
 from src.domain.book import Book, BookRepository
 from src.domain.exceptions import BookRepositoryException
@@ -96,3 +97,82 @@ class BookRepository(BookRepository):
             )
 
         return books
+
+    def search_books(self, title: str = "", category: str = "") -> List[Book]:
+        """Busca livros com base em título e categoria.
+
+        Lê o arquivo CSV especificado no construtor e filtra os livros
+        que correspondem aos critérios de busca fornecidos.
+
+        Args:
+            title (str): Título ou parte do título do livro a ser buscado.
+                Busca é case-insensitive. Padrão é string vazia, que não
+                filtra por título.
+            category (str): Categoria do livro a ser buscado. Busca é
+                case-insensitive. Padrão é string vazia, que não filtra
+                por categoria.
+
+        Returns:
+            List[Book]: Lista contendo os livros que correspondem aos
+                critérios de busca.
+
+        Raises:
+            BookRepositoryException: Se houver problemas de acesso ao arquivo
+                ou configuração.
+            DataValidationError: Se algum valor no CSV não puder ser
+                convertido para o tipo esperado.
+        """
+
+        try:
+            df = pd.read_csv(self.file_path)
+
+            if title:
+                df = df[df['title'].str.contains(title,
+                                                 case=False,
+                                                 na=False)]
+            if category:
+                df = df[df['category'].str.contains(category,
+                                                    case=False,
+                                                    na=False)]
+
+            # Converter DataFrame para lista de objetos Book
+            books = []
+            for _, row in df.iterrows():
+                try:
+                    book = Book(
+                        id=int(row["id"]),
+                        title=row["title"],
+                        price=float(row["price"]),
+                        rating=int(row["rating"]),
+                        avaliability=int(row["avaliability"]),
+                        category=row["category"],
+                        image_url=row["image_url"]
+                    )
+                    books.append(book)
+                except (ValueError, KeyError) as e:
+                    self.logger.warning(f"Erro ao processar registro: {e}")
+                    continue
+
+            return books
+
+        except FileNotFoundError:
+            error_msg = f"Arquivo CSV não encontrado: {self.file_path}"
+            self.logger.error(error_msg)
+            raise BookRepositoryException(
+                f"Arquivo de dados não encontrado: {self.file_path}",
+                "FILE_NOT_FOUND"
+            )
+        except PermissionError:
+            error_msg = f"Sem permissão para ler arquivo: {self.file_path}"
+            self.logger.error(error_msg)
+            raise BookRepositoryException(
+                f"Sem permissão para acessar arquivo: {self.file_path}",
+                "PERMISSION_DENIED"
+            )
+        except Exception as e:
+            error_msg = f"Erro inesperado ao ler arquivo CSV: {e}"
+            self.logger.error(error_msg)
+            raise BookRepositoryException(
+                f"Erro ao carregar dados dos livros: {e}",
+                "UNEXPECTED_ERROR"
+            )
