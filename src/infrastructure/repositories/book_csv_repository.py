@@ -1,7 +1,7 @@
 import csv
 import logging
 import pandas as pd
-from typing import List
+from typing import List, Optional
 from src.domain.book import Book, BookRepository
 from src.domain.exceptions import BookRepositoryException
 
@@ -176,3 +176,38 @@ class BookRepository(BookRepository):
                 f"Erro ao carregar dados dos livros: {e}",
                 "UNEXPECTED_ERROR"
             )
+
+    def get_book_by_id(self, book_id: int) -> Optional[Book]:
+        """Recupera um único livro pelo seu ID."""
+        try:
+            df = pd.read_csv(self.file_path)
+            book_data = df[df['id'] == book_id]
+            
+            if not book_data.empty:
+                # Converte a primeira linha encontrada para um objeto Book
+                return Book(**book_data.iloc[0].to_dict())
+            
+            # Retorna None se nenhum livro for encontrado com o ID
+            return None
+        except FileNotFoundError:
+            raise BookRepositoryException(f"Arquivo de dados não encontrado: {self.file_path}", "FILE_NOT_FOUND")
+        except Exception as e:
+            raise BookRepositoryException(f"Erro ao buscar livro por ID: {e}", "UNEXPECTED_ERROR")
+
+    def get_all_categories(self) -> List[str]:
+        """Recupera uma lista de todas as categorias de livros únicas."""
+        try:
+            df = pd.read_csv(self.file_path)
+            
+            if 'category' in df.columns:
+                # Pega todas as categorias, remove as duplicadas e ordena
+                unique_categories = df['category'].unique()
+                return sorted(list(unique_categories))
+            
+            # Retorna lista vazia se a coluna 'category' não existir
+            return []
+        except FileNotFoundError:
+            raise BookRepositoryException(f"Arquivo de dados não encontrado: {self.file_path}", "FILE_NOT_FOUND")
+        except Exception as e:
+            raise BookRepositoryException(f"Erro ao buscar categorias: {e}", "UNEXPECTED_ERROR")
+            
