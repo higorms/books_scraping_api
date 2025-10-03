@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Protocol, List
+from typing import Protocol, List, Optional
 
 
 @dataclass
@@ -49,5 +49,24 @@ class BookRepository(Protocol):
         Returns:
             List[Book]: Lista contendo os livros que correspondem aos
                 critérios de busca.
+        """
+        ...
+
+    def get_book_by_id(self, book_id: int) -> Optional[Book]:
+        """Recupera um único livro pelo seu ID.
+
+        Args:
+            book_id (int): O ID do livro a ser buscado.
+
+        Returns:
+            Optional[Book]: O objeto Book se encontrado, caso contrário None.
+        """
+        ...
+
+    def get_all_categories(self) -> List[str]:
+        """Recupera uma lista de todas as categorias de livros únicas.
+
+        Returns:
+            List[str]: Lista contendo os nomes das categorias.
         """
         ...
