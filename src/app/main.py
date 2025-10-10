@@ -5,6 +5,7 @@ from fastapi.responses import JSONResponse
 import uvicorn
 from src.app.routes.book_routes import router as book_router
 from src.app.routes.health_routes import router as health_router
+from src.app.routes.auth_routes import router as auth_routes
 from src.app.middleware.request_logging import RequestLoggingMiddleware
 
 # Configuração do logging
@@ -54,6 +55,7 @@ async def global_exception_handler(request: Request, exc: Exception):
 
 app.include_router(book_router, prefix="/api")
 app.include_router(health_router, prefix="/api")
+app.include_router(auth_routes, prefix="/api")
 
 
 def main():
