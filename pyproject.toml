@@ -20,6 +20,7 @@ sentence-transformers = "^5.1.1"
 datadog-api-client = "^2.44.0"
 ddtrace = "^3.16.0"
 psutil = "^7.1.1"
+pyjwt = "^2.10.1"
 
 [build-system]
 requires = ["poetry-core"]
