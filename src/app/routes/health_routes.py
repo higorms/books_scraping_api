@@ -3,6 +3,9 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from src.application.health_check import HealthCheck
 from src.infrastructure.repositories.book_csv_repository import BookRepository
 from src.app.schemas.health_schema import HealthSchema
+from src.infrastructure.repositories.pinecone_repository import (
+    PineconeRepository
+)
 
 
 router = APIRouter()
@@ -13,7 +16,16 @@ def get_health_check_use_case() -> HealthCheck:
     """Factory function para criar instância do caso de uso HealthCheck."""
     try:
         repository = BookRepository("data/books.csv")
-        return HealthCheck(repository)
+
+        # Tentar inicializar Pinecone (opcional)
+        pinecone_repo = None
+        try:
+            pinecone_repo = PineconeRepository()
+        except Exception as e:
+            logger.warning(f"Pinecone não disponível: {e}")
+
+        return HealthCheck(repository, pinecone_repo)
+
     except Exception as e:
         logger.error(f"Erro ao configurar dependências do health check: {e}")
         raise HTTPException(
@@ -40,7 +52,7 @@ def health_check(use_case: HealthCheck = Depends(get_health_check_use_case)):
         logger.info("Processando requisição de health check")
         health_status = use_case.execute()
 
-        if health_status.status == "ok":
+        if health_status.status == "healthy":
             logger.info("Health check concluído: aplicação saudável")
             return health_status.__dict__
         else:
