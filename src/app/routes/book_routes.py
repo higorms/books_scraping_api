@@ -14,6 +14,9 @@ from src.domain.exceptions import (
     BookNotFoundError
 )
 from src.app.schemas.book_schema import BookSchema
+from src.application.get_book_recommendations import FindSimilarBooksByText
+from src.infrastructure.services.embedding_service import EmbeddingService
+from src.infrastructure.repositories.pinecone_repository import PineconeRepository
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
@@ -30,6 +33,16 @@ def get_book_repository() -> BookRepository:
             detail="Erro interno do servidor ao acessar a fonte de dados"
         )
 
+def get_pinecone_repository() -> PineconeRepository:
+    """Factory para o repositório Pinecone."""
+    try:
+        return PineconeRepository()
+    except Exception as e:
+        logger.error(f"Erro ao instanciar o repositório Pinecone: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Serviço de busca por similaridade está indisponível."
+        )
 
 def get_use_case(
     repository: BookRepository = Depends(get_book_repository)
@@ -61,6 +74,20 @@ def get_all_categories_use_case(
     """Factory para o caso de uso GetAllCategories,
     que depende de um repositório."""
     return GetAllCategories(repository)
+
+def get_embedding_service() -> EmbeddingService:
+    """Factory para o serviço de embedding."""
+    return EmbeddingService()
+
+def find_similar_books_use_case(
+    pinecone_repo: PineconeRepository = Depends(get_pinecone_repository),
+    csv_repo: BookCSVRepository = Depends(get_book_repository),
+    embedding_service: EmbeddingService = Depends(get_embedding_service)
+) -> FindSimilarBooksByText:
+    """Factory para o caso de uso FindSimilarBooksByText."""
+    if not pinecone_repo:
+        raise HTTPException(status_code=503, detail="Serviço de busca indisponível.")
+    return FindSimilarBooksByText(pinecone_repo, csv_repo, embedding_service)
 
 
 @router.get(
@@ -133,7 +160,33 @@ def search_books(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Erro interno do servidor"
         )
+    
 
+@router.get(
+    "/v1/books/recommendations",
+    response_model=List[BookSchema],
+    summary="Buscar livros por similaridade de texto",
+    tags=["Recomendações"]
+)
+def find_similar_books(
+    query: str,
+    use_case: FindSimilarBooksByText = Depends(find_similar_books_use_case)
+):
+    """
+    Recebe um texto (título ou descrição) e retorna uma lista de 5 livros
+    semanticamente mais similares encontrados no catálogo.
+    """
+    if not query or not query.strip():
+        raise HTTPException(status_code=400, detail="O parâmetro 'query' não pode ser vazio.")
+
+    try:
+        recommendations = use_case.execute(query_text=query)
+        # ... tratamento de erro e retorno ...
+        return [book.__dict__ for book in recommendations]
+    except Exception as e:
+        # ...
+        raise HTTPException(status_code=500, detail="Erro ao processar a busca.")
+    
 
 @router.get(
     "/v1/books/{id}",

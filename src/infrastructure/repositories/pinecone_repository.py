@@ -20,7 +20,7 @@ class PineconeRepository:
         self,
         api_key: Optional[str] = None,
         index_name: Optional[str] = None,
-        dimension: int = 1024
+        dimension: int = 384
     ):
         """Inicializa a conexão com Pinecone.
 
