@@ -3,7 +3,11 @@ import logging
 from datetime import datetime, timedelta
 from typing import Optional, Dict, Any
 from passlib.context import CryptContext
+from dotenv import load_dotenv
+import os
 
+
+load_dotenv()
 
 logger = logging.getLogger(__name__)
 
@@ -13,7 +17,7 @@ class JWTService:
 
     def __init__(
         self,
-        secret_key: str = "your-secret-key-here",
+        secret_key: str = os.getenv("JWT_SECRET_KEY"),
         algorithm: str = "HS256",
         access_token_expire_minutes: int = 60
     ):

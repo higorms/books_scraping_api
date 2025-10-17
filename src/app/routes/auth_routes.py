@@ -43,7 +43,7 @@ fake_users_db = {
         500: {"description": "Erro interno do servidor"}
     }
 )
-async def login(
+def login(
     login_data: LoginRequest,
     jwt_service: JWTService = Depends(get_jwt_service)
 ):
