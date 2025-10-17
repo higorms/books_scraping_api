@@ -13,7 +13,7 @@ def get_jwt_service() -> JWTService:
     return JWTService()
 
 
-async def get_current_user(
+def get_current_user(
     credentials: HTTPAuthorizationCredentials = Depends(security),
     jwt_service: JWTService = Depends(get_jwt_service)
 ) -> dict:
@@ -54,7 +54,7 @@ async def get_current_user(
         raise credentials_exception
 
 
-async def require_auth(current_user: dict = Depends(get_current_user)) -> dict:
+def require_auth(current_user: dict = Depends(get_current_user)) -> dict:
     """Dependency que requer autenticação.
 
     Args:
