@@ -2,16 +2,13 @@ import logging
 from fastapi import APIRouter, Depends, status
 from typing import List
 
-# Importa as factories de dependência que já existem
 from src.app.routes.book_routes import get_book_repository
 from src.domain.book import BookRepository
 
-# Importa os novos casos de uso
 from src.application.get_ml_features import GetMLFeatures
 from src.application.get_training_data import GetTrainingData
 from src.application.run_prediction import RunPrediction
 
-# Importa os novos schemas
 from src.app.schemas.ml_schema import (
     BookFeatureSchema,
     TrainingDataSchema,
@@ -21,8 +18,6 @@ from src.app.schemas.ml_schema import (
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
-
-# --- Factories para os Casos de Uso de ML ---
 
 def get_ml_features_use_case(
     repository: BookRepository = Depends(get_book_repository)
@@ -40,10 +35,6 @@ def run_prediction_use_case() -> RunPrediction:
     """Factory para o caso de uso RunPrediction."""
     # Este caso de uso não depende de repositórios, por enquanto
     return RunPrediction()
-
-# ---------------------------------------------------------------------------
-# Endpoints de ML
-# ---------------------------------------------------------------------------
 
 @router.get(
     "/v1/ml/features",
