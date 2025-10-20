@@ -1,22 +1,54 @@
 import logging
 import sys
+import json
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 import uvicorn
 from src.app.routes.book_routes import router as book_router
 from src.app.routes.health_routes import router as health_router
 from src.app.middleware.request_logging import RequestLoggingMiddleware
+from src.infrastructure.services.datadog_config import configure_datadog
+
+
+# Configuração do logging com formato JSON para Datadog
+class DatadogJsonFormatter(logging.Formatter):
+    """Formatter personalizado para logs em formato JSON compatível com Datadog."""
+
+    def format(self, record):
+        log_data = {
+            "timestamp": self.formatTime(record),
+            "level": record.levelname,
+            "logger": record.name,
+            "message": record.getMessage(),
+            "dd.service": "books-scraping-api",
+            "dd.env": "production",
+            "dd.version": "1.0.0"
+        }
+
+        if record.exc_info:
+            log_data["error.kind"] = record.exc_info[0].__name__
+            log_data["error.message"] = str(record.exc_info[1])
+            log_data["error.stack"] = self.formatException(record.exc_info)
+
+        return json.dumps(log_data)
+
 
 # Configuração do logging
+handler = logging.StreamHandler(sys.stdout)
+handler.setFormatter(DatadogJsonFormatter())
+
 logging.basicConfig(
     level=logging.INFO,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    handlers=[
-        logging.StreamHandler(sys.stdout)
-    ]
+    handlers=[handler]
 )
 
 logger = logging.getLogger(__name__)
+
+# Configura Datadog
+if configure_datadog():
+    logger.info("Datadog habilitado e configurado")
+else:
+    logger.warning("Datadog não foi configurado")
 
 app = FastAPI(
     title="Books Scraping API",
