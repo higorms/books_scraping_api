@@ -1,5 +1,6 @@
 import logging
 import sys
+import json
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 import uvicorn
@@ -7,14 +8,60 @@ from src.app.routes.book_routes import router as book_router
 from src.app.routes.health_routes import router as health_router
 from src.app.routes.ml_routes import router as ml_router
 from src.app.middleware.request_logging import RequestLoggingMiddleware
+from src.infrastructure.services.datadog_config import configure_datadog
+from src.infrastructure.services.datadog_handler import DatadogLogHandler
+from src.infrastructure.services.system_metrics import (
+    get_system_metrics_collector
+)
+
+
+# Configuração do logging com formato JSON para Datadog
+class DatadogJsonFormatter(logging.Formatter):
+    """Formatter personalizado para logs
+    em formato JSON compatível com Datadog."""
+
+    def format(self, record):
+        log_data = {
+            "timestamp": self.formatTime(record),
+            "level": record.levelname,
+            "logger": record.name,
+            "message": record.getMessage(),
+            "dd.service": "books-scraping-api",
+            "dd.env": "production",
+            "dd.version": "1.0.0"
+        }
+
+        if record.exc_info:
+            log_data["error.kind"] = record.exc_info[0].__name__
+            log_data["error.message"] = str(record.exc_info[1])
+            log_data["error.stack"] = self.formatException(record.exc_info)
+
+        return json.dumps(log_data)
+
 
 # Configuração do logging
+console_handler = logging.StreamHandler(sys.stdout)
+console_handler.setFormatter(DatadogJsonFormatter())
+
+# Configura handlers
+handlers = [console_handler]
+
+# Configura Datadog antes de adicionar o handler
+if configure_datadog():
+    logger_temp = logging.getLogger(__name__)
+    logger_temp.info("Datadog habilitado e configurado")
+
+    # Adiciona o handler do Datadog
+    datadog_handler = DatadogLogHandler()
+    datadog_handler.setLevel(logging.INFO)
+    handlers.append(datadog_handler)
+else:
+    logger_temp = logging.getLogger(__name__)
+    logger_temp.warning("Datadog não foi configurado")
+
 logging.basicConfig(
     level=logging.INFO,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    handlers=[
-        logging.StreamHandler(sys.stdout)
-    ]
+    handlers=handlers
 )
 
 logger = logging.getLogger(__name__)
@@ -56,6 +103,28 @@ async def global_exception_handler(request: Request, exc: Exception):
 app.include_router(book_router, prefix="/api")
 app.include_router(health_router, prefix="/api")
 app.include_router(ml_router, prefix="/api")
+
+
+@app.on_event("startup")
+async def startup_event():
+    """Evento executado na inicialização da aplicação."""
+    logger.info("Iniciando aplicação Books Scraping API")
+
+    # Inicia o coletor de métricas de sistema
+    metrics_collector = get_system_metrics_collector(interval=30)
+    await metrics_collector.start()
+    logger.info("Coletor de métricas de sistema iniciado")
+
+
+@app.on_event("shutdown")
+async def shutdown_event():
+    """Evento executado no encerramento da aplicação."""
+    logger.info("Encerrando aplicação Books Scraping API")
+
+    # Para o coletor de métricas
+    metrics_collector = get_system_metrics_collector()
+    await metrics_collector.stop()
+    logger.info("Coletor de métricas de sistema parado")
 
 
 def main():

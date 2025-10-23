@@ -17,7 +17,6 @@ from src.app.schemas.book_schema import BookSchema
 from src.application.get_book_recommendations import FindSimilarBooksByText
 from src.infrastructure.services.embedding_service import EmbeddingService
 from src.infrastructure.repositories.pinecone_repository import PineconeRepository
-
 router = APIRouter()
 logger = logging.getLogger(__name__)
 
@@ -177,11 +176,13 @@ def find_similar_books(
     semanticamente mais similares encontrados no catálogo.
     """
     if not query or not query.strip():
-        raise HTTPException(status_code=400, detail="O parâmetro 'query' não pode ser vazio.")
+        raise HTTPException(
+            status_code=400,
+            detail="O parâmetro 'query' não pode ser vazio."
+        )
 
     try:
         recommendations = use_case.execute(query_text=query)
-        # ... tratamento de erro e retorno ...
         return [book.__dict__ for book in recommendations]
     except Exception as e:
         # ...

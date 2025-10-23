@@ -9,6 +9,10 @@ import time
 from typing import Callable
 from fastapi import Request, Response
 from starlette.middleware.base import BaseHTTPMiddleware
+from src.infrastructure.services.datadog_config import (
+    send_metric,
+    increment_counter
+)
 
 
 class RequestLoggingMiddleware(BaseHTTPMiddleware):
@@ -73,6 +77,27 @@ class RequestLoggingMiddleware(BaseHTTPMiddleware):
                 f"Tempo: {process_time:.3f}s"
             )
 
+            # Envia métricas para o Datadog
+            tags = [
+                f"method:{method}",
+                f"status:{response.status_code}",
+                f"path:{request.url.path}"
+            ]
+            
+            # Métrica de latência
+            send_metric(
+                "books.api.request.duration",
+                process_time,
+                tags=tags
+            )
+            
+            # Contador de requisições
+            increment_counter(
+                "books.api.request.count",
+                value=1,
+                tags=tags
+            )
+
             # Adiciona header com tempo de processamento
             response.headers["X-Process-Time"] = str(process_time)
 
@@ -85,6 +110,7 @@ class RequestLoggingMiddleware(BaseHTTPMiddleware):
                 f"Erro durante processamento: {method} {url} - "
                 f"Erro: {str(e)} - Tempo: {process_time:.3f}s"
             )
+
             raise
 
     def _get_client_ip(self, request: Request) -> str:
