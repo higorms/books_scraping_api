@@ -5,6 +5,7 @@ from src.application.get_all_books import GetAllBooks
 from src.application.search_books import SearchBooks
 from src.application.get_book_by_id import GetBookById
 from src.application.get_all_categories import GetAllCategories
+from src.application.scraper import RunScraper
 from src.infrastructure.repositories.book_csv_repository import (
     BookRepository as BookCSVRepository
 )
@@ -14,6 +15,8 @@ from src.domain.exceptions import (
     BookNotFoundError
 )
 from src.app.schemas.book_schema import BookSchema
+from src.app.schemas.scraper_schema import ScraperResponseSchema
+from src.app.middleware.auth_middleware import require_auth
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
@@ -61,6 +64,11 @@ def get_all_categories_use_case(
     """Factory para o caso de uso GetAllCategories,
     que depende de um repositório."""
     return GetAllCategories(repository)
+
+
+def run_scraper_use_case() -> RunScraper:
+    """Factory para o caso de uso RunScraper."""
+    return RunScraper()
 
 
 @router.get(
@@ -184,4 +192,42 @@ def get_all_categories(
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Erro interno do servidor"
+        )
+
+
+@router.post(
+    "/v1/scraper/run",
+    response_model=ScraperResponseSchema,
+    summary="Executar o scraper de livros",
+    tags=["Scraper"],
+    dependencies=[Depends(require_auth)]
+)
+def run_scraper(
+    use_case: RunScraper = Depends(run_scraper_use_case)
+):
+    """Endpoint para executar o scraper e coletar dados de livros.
+
+    Este endpoint requer autenticação JWT.
+    Executa o web scraper para coletar dados de livros do site
+    books.toscrape.com e salva os resultados em um arquivo CSV.
+
+    Returns:
+        ScraperResponseSchema: Informações sobre a execução do scraper,
+            incluindo sucesso, mensagem, quantidade de livros coletados
+            e caminho do arquivo gerado.
+
+    Raises:
+        HTTPException 401: Se o token JWT for inválido ou ausente.
+        HTTPException 500: Se houver erro durante a execução do scraper.
+    """
+    try:
+        logger.info("Recebida requisição para executar o scraper")
+        result = use_case.execute()
+        logger.info(f"Scraper executado: {result['message']}")
+        return result
+    except Exception as e:
+        logger.error(f"Erro ao executar o scraper: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Erro ao executar o scraper: {str(e)}"
         )
