@@ -17,6 +17,9 @@ pydantic = "^2.11.9"
 pinecone = "^7.3.0"
 python-dotenv = "^1.1.1"
 sentence-transformers = "^5.1.1"
+datadog-api-client = "^2.44.0"
+ddtrace = "^3.16.0"
+psutil = "^7.1.1"
 
 [build-system]
 requires = ["poetry-core"]
