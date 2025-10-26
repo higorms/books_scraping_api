@@ -38,16 +38,16 @@ def get_health_check_use_case() -> HealthCheck:
     "/v1/health",
     response_model=HealthSchema,
     summary="Verificação de saúde da aplicação",
-    description="Retorna o status da aplicação e conectividade com os dados.",
+    description="Retorna o status da aplicação e conectividade com os "
+                "serviços.",
     tags=["Health"],
     responses={
-        200: {"description": "Status de saúde recuperado com sucesso"},
+        200: {"description": "Aplicação saudável"},
         503: {"description": "Aplicação com problemas de conectividade"},
         500: {"description": "Erro interno do servidor"}
     }
 )
 def health_check(use_case: HealthCheck = Depends(get_health_check_use_case)):
-    """Endpoint para verificação de saúde da aplicação."""
     try:
         logger.info("Processando requisição de health check")
         health_status = use_case.execute()

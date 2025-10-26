@@ -47,7 +47,6 @@ def register(
     repository: UserRepository = Depends(get_user_repository),
     jwt_service: JWTService = Depends(get_jwt_service)
 ):
-    """Endpoint para registro de novo usuário."""
     try:
         logger.info(
             f"Tentativa de registro para usuário: {user_data.username}"
@@ -100,7 +99,6 @@ def login(
     repository: UserRepository = Depends(get_user_repository),
     jwt_service: JWTService = Depends(get_jwt_service)
 ):
-    """Endpoint para autenticação de usuário."""
     try:
         logger.info(f"Tentativa de login para usuário: {login_data.username}")
 
