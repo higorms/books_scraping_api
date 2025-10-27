@@ -13,13 +13,17 @@ beautifulsoup4 = "^4.13.5"
 pandas = "^2.3.2"
 fastapi = "^0.117.1"
 uvicorn = "^0.36.0"
-pydantic = "^2.11.9"
+pydantic = {extras = ["email"], version = "^2.12.2"}
 pinecone = "^7.3.0"
 python-dotenv = "^1.1.1"
 sentence-transformers = "^5.1.1"
 datadog-api-client = "^2.44.0"
 ddtrace = "^3.16.0"
 psutil = "^7.1.1"
+pyjwt = "^2.10.1"
+passlib = {extras = ["bcrypt"], version = "^1.7.4"}
+sqlalchemy = "^2.0.44"
+bcrypt = "4.0.1"
 
 [build-system]
 requires = ["poetry-core"]
