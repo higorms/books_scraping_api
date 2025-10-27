@@ -24,10 +24,6 @@ pyjwt = "^2.10.1"
 passlib = {extras = ["bcrypt"], version = "^1.7.4"}
 sqlalchemy = "^2.0.44"
 bcrypt = "4.0.1"
-<<<<<<< HEAD
-#python-dotenv = "^1.0.0"
-=======
->>>>>>> db5adf6cd2b7b3237cf4223868d8b8ffb6b08575
 
 [build-system]
 requires = ["poetry-core"]
