@@ -1,0 +1,98 @@
+# Python
+__pycache__
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info
+dist
+build
+*.egg
+
+# Virtual environments
+.venv
+venv
+ENV
+env
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Documentation
+*.md
+README.md
+docs/
+
+# Tests
+tests/
+test_*.py
+*_test.py
+.pytest_cache
+.coverage
+htmlcov/
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+.travis.yml
+
+# Docker
+Dockerfile*
+docker-compose*
+
+# Cache e arquivos temporários
+*.pyc
+*.pyo
+.mypy_cache
+.ruff_cache
+.pytest_cache
+
+# Modelos e dados de ML pesados (não copiar para imagem)
+**/.cache
+**/sentence_transformers_cache
+**/transformers_cache
+**/__pycache__
+
+# Logs
+*.log
+logs/
+
+# Arquivos CSV de teste (mantém apenas books.csv necessário)
+**/mt19937-*.csv
+**/pcg64-*.csv
+**/pcg64dxsm-*.csv
+**/philox-*.csv
+**/sfc64-*.csv
+**/umath-*.csv
+**/breast_cancer.csv
+**/iris.csv
+**/linnerud_*.csv
+**/wine_data.csv
+**/LICENSE-3rdparty.csv
+docker-compose*.yml
+.dockerignore
+
+# Environment files (incluir apenas se necessário)
+.env.example
+.env.local
+.env.development
+.env
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
