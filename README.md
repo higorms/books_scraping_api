@@ -389,5 +389,3 @@ curl https://books-api.jollyground-ed0bc992.eastus2.azurecontainerapps.io/api/v1
 
 ## 18. Créditos
 Projeto desenvolvido por Higor Menezes e Narcelio Clemente no contexto de atividade acadêmica de Machine Learning Engineering (FIAP).
-
-Para detalhes aprofundados, consulte `DOCUMENTATION.pdf`.
