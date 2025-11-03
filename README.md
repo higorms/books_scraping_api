@@ -45,74 +45,74 @@ O projeto adota os princípios da **Clean Architecture** (também conhecida como
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │                        INTERFACE LAYER                          │
-│  ┌──────────────────────────────────────────────────────────┐  │
-│  │          FastAPI (app/)                                   │  │
-│  │  • main.py (servidor)                                     │  │
-│  │  • routes/ (endpoints HTTP)                               │  │
-│  │  • schemas/ (Pydantic models - DTOs)                      │  │
-│  │  • middleware/ (auth, logging)                            │  │
-│  └────────────────────┬─────────────────────────────────────┘  │
+│  ┌──────────────────────────────────────────────────────────┐   │
+│  │          FastAPI (app/)                                  │   │
+│  │  • main.py (servidor)                                    │   │
+│  │  • routes/ (endpoints HTTP)                              │   │
+│  │  • schemas/ (Pydantic models - DTOs)                     │   │
+│  │  • middleware/ (auth, logging)                           │   │
+│  └────────────────────┬─────────────────────────────────────┘   │
 └───────────────────────┼─────────────────────────────────────────┘
                         │
                         ▼
 ┌─────────────────────────────────────────────────────────────────┐
 │                      APPLICATION LAYER                          │
-│  ┌──────────────────────────────────────────────────────────┐  │
-│  │       Use Cases (application/)                            │  │
-│  │  • get_all_books.py                                       │  │
-│  │  • search_books.py                                        │  │
-│  │  • get_book_recommendations.py                            │  │
-│  │  • scraper.py (orquestração do scraping)                  │  │
-│  │  • login_user.py / register_user.py                       │  │
-│  │  • get_training_data.py / run_prediction.py               │  │
-│  │  • index_books.py (indexação vetorial)                    │  │
-│  └────────────────────┬─────────────────────────────────────┘  │
+│  ┌──────────────────────────────────────────────────────────┐   │
+│  │       Use Cases (application/)                           │   │
+│  │  • get_all_books.py                                      │   │
+│  │  • search_books.py                                       │   │
+│  │  • get_book_recommendations.py                           │   │
+│  │  • scraper.py (orquestração do scraping)                 │   │
+│  │  • login_user.py / register_user.py                      │   │
+│  │  • get_training_data.py / run_prediction.py              │   │
+│  │  • index_books.py (indexação vetorial)                   │   │
+│  └────────────────────┬─────────────────────────────────────┘   │
 └───────────────────────┼─────────────────────────────────────────┘
                         │
                         ▼
 ┌─────────────────────────────────────────────────────────────────┐
 │                        DOMAIN LAYER                             │
-│  ┌──────────────────────────────────────────────────────────┐  │
-│  │       Entities & Protocols (domain/)                      │  │
-│  │  • book.py (Book entity)                                  │  │
-│  │  • user.py (User entity)                                  │  │
-│  │  • exceptions.py (custom exceptions)                      │  │
-│  │  • Protocols: BookRepository, UserRepository             │  │
-│  └──────────────────────────────────────────────────────────┘  │
+│  ┌──────────────────────────────────────────────────────────┐   │
+│  │       Entities & Protocols (domain/)                     │   │
+│  │  • book.py (Book entity)                                 │   │
+│  │  • user.py (User entity)                                 │   │
+│  │  • exceptions.py (custom exceptions)                     │   │
+│  │  • Protocols: BookRepository, UserRepository             │   │
+│  └──────────────────────────────────────────────────────────┘   │
 └─────────────────────────────────────────────────────────────────┘
                         ▲
                         │
 ┌───────────────────────┴─────────────────────────────────────────┐
 │                    INFRASTRUCTURE LAYER                         │
-│  ┌──────────────────────────────────────────────────────────┐  │
-│  │    Implementations (infrastructure/)                      │  │
-│  │                                                            │  │
-│  │  repositories/                                             │  │
-│  │    • book_csv_repository.py (CSV persistence)             │  │
-│  │    • pinecone_repository.py (vector search)               │  │
-│  │    • user_repository.py (SQLite + SQLAlchemy)             │  │
-│  │                                                            │  │
-│  │  services/                                                 │  │
-│  │    • embedding_service.py (Sentence-Transformers)         │  │
-│  │    • datadog_handler.py (observability)                   │  │
-│  │    • system_metrics.py (CPU, memory monitoring)           │  │
-│  │                                                            │  │
-│  │  security/                                                 │  │
-│  │    • jwt_service.py (autenticação JWT)                    │  │
-│  │                                                            │  │
-│  │  database.py (SQLAlchemy engine/session)                  │  │
-│  └──────────────────────────────────────────────────────────┘  │
+│  ┌──────────────────────────────────────────────────────────┐   │
+│  │    Implementations (infrastructure/)                     │   │
+│  │                                                          │   │
+│  │  repositories/                                           │   │
+│  │    • book_csv_repository.py (CSV persistence)            │   │
+│  │    • pinecone_repository.py (vector search)              │   │
+│  │    • user_repository.py (SQLite + SQLAlchemy)            │   │
+│  │                                                          │   │
+│  │  services/                                               │   │
+│  │    • embedding_service.py (Sentence-Transformers)        │   │
+│  │    • datadog_handler.py (observability)                  │   │
+│  │    • system_metrics.py (CPU, memory monitoring)          │   │ 
+│  │                                                          │   │
+│  │  security/                                               │   │
+│  │    • jwt_service.py (autenticação JWT)                   │   │
+│  │                                                          │   │
+│  │  database.py (SQLAlchemy engine/session)                 │   │
+│  └──────────────────────────────────────────────────────────┘   │
 └─────────────────────────────────────────────────────────────────┘
                         │
                         ▼
-            ┌───────────────────────────┐
-            │   EXTERNAL DEPENDENCIES   │
-            │  • BeautifulSoup (scraping) │
-            │  • Pinecone (vector DB)     │
-            │  • SQLite (user DB)         │
-            │  • Datadog (logs/metrics)   │
-            │  • Sentence-Transformers    │
-            └───────────────────────────┘
+            ┌───────────────────────────────┐
+            │   EXTERNAL DEPENDENCIES       │
+            │  • BeautifulSoup (scraping)   │
+            │  • Pinecone (vector DB)       │
+            │  • SQLite (user DB)           │
+            │  • Datadog (logs/metrics)     │
+            │  • Sentence-Transformers      │
+            └───────────────────────────────┘
 ```
 
 ### 3.2. Fluxo de Requisição (Exemplo: GET /api/v1/books/search)
