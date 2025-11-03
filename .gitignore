@@ -1,3 +1,36 @@
+# Virtual Environment
 .venv/
+venv/
+env/
 
+# Environment Variables
+.env
+.env.local
+
+# Python
 __pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Database
+data/users.db
+data/users.db-journal
+*.db
+*.sqlite
+*.sqlite3
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+
+# Project specific
+delete_pinecone_index.py
+
