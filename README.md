@@ -387,5 +387,9 @@ curl https://books-api.jollyground-ed0bc992.eastus2.azurecontainerapps.io/api/v1
 curl https://books-api.jollyground-ed0bc992.eastus2.azurecontainerapps.io/api/v1/books/recommendations?query=fantasy
 ```
 
-## 18. Créditos
+## 18. Vídeo de demonstação
+O link abaixo mostra um vídeo com uma explicação breve e uma demosntração do funcionamento dos endpoints da API. <br>
+https://youtu.be/TzCqyi8P5MA
+
+## 19. Créditos
 Projeto desenvolvido por Higor Menezes e Narcelio Clemente no contexto de atividade acadêmica de Machine Learning Engineering (FIAP).
